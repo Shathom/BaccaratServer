@@ -20,4 +20,12 @@ public class Card {
 	public void setValue(int value) {
 		this.value = value;
 	}
- }
+	
+	public int getBaccaratValue() {
+		if (value > 9) {
+			return 0;
+		} else {
+			return value;
+		}
+	}
+  }
