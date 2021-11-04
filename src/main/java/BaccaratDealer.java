@@ -30,13 +30,11 @@ public class BaccaratDealer {
 	}
 	// drawOne will deal a single card and return it.
 	public Card drawOne() {
-		Card cardToDeal = null;
 		if (deck.isEmpty()) {
 			System.out.println("No more cards left to deal!");
-		} else {
-			cardToDeal = new Card(deck.remove(0).getSuite(), deck.remove(0).getValue());
+			return null;
 		}
-		return cardToDeal;
+		return deck.remove(0);
 	}
 	
 	// shuffleDeck will create a new deck of 52 cards and “shuffle”; randomize the cards in that ArrayList<Card>. 
