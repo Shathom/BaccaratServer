@@ -11,7 +11,7 @@ public class BaccaratGameLogic {
 		}
 		if (handTotal(hand1) > handTotal(hand2)) {
 			return "Player";
-		} 
+		}
 		return "Draw";
 	}
 	// The method handTotal will take a hand and return how many points that hand is worth.
@@ -34,6 +34,26 @@ public class BaccaratGameLogic {
 		if (handTotal(hand) < 3) {
 			return true;
 		}
+		if (handTotal(hand) == 3) {
+			return playerCard.getValue() != 8;
+		}
+		if (handTotal(hand) == 4) {
+			return (playerCard.getValue() != 0 
+					&& playerCard.getValue() != 1
+					&& playerCard.getValue() != 8 
+					&& playerCard.getValue() != 9);
+		}
+		if (handTotal(hand) == 5) {
+			return (playerCard == null &&
+					playerCard.getValue() >= 4 &&
+					playerCard.getValue() <= 7);
+		}
+		if (handTotal(hand) == 6) {
+			return (playerCard.getValue() == 6 &&
+					playerCard.getValue() == 7);
+		}
+		// throw something here and then return
+		return false;
 	}
 	
 	//The methods evaluateBankerDraw and evaluatePlayerDraw will return true if either one should be dealt a third card, otherwise return false.
