@@ -3,9 +3,9 @@ import java.util.Collections;
 
 public class BaccaratDealer {
 	
-	public ArrayList<Card> deck;
-	public static final String suits[] = {"club", "diamond", "heart", "spade"};
-	public static final int ranks[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
+	private ArrayList<Card> deck;
+	private final String suits[] = {"club", "diamond", "heart", "spade"};
+	private final int ranks[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
 	
 	// generateDeck will generate a new standard 52 card deck where each card is an instance of the Card class in the ArrayList<Card> deck.
 	public void generateDeck() {
