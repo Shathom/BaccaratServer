@@ -1,5 +1,7 @@
 import java.util.HashMap;
 
+import com.sun.prism.paint.Color;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -16,6 +18,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javafx.geometry.Pos;
 
 public class JavaFXTemplate extends Application {
 
@@ -25,7 +28,7 @@ public class JavaFXTemplate extends Application {
 	private VBox portNumber, butAndNumber, listViewAndLeave;
 	private Button startServer, leaveServer, exit;
 	private HashMap<String, Scene> sceneMap;
-	Server serverConnection;
+	public Server serverConnection;
 	private EventHandler<ActionEvent> startServerHandler, exitHandler, leaveServerhandler;
 	ListView<String> serverUpdates;
 	
@@ -39,20 +42,20 @@ public class JavaFXTemplate extends Application {
 
 		primaryStage.setTitle("Baccarat Server");
 		
-		this.startServer = new Button("Start Server");
-		this.startServer.setStyle("-fx-pref-width: 300px");
-		this.startServer.setStyle("-fx-pref-height: 300px");
-		
-		this.startServer.setOnAction(e->{ primaryStage.setScene(sceneMap.get("startServer"));
-											primaryStage.setTitle("This is the Server");
-				serverConnection = new Server(data -> {
-					Platform.runLater(()->{
-						serverUpdates.getItems().add(data.toString());
-					});
-
-				});
-											
-		});
+//		this.startServer = new Button("Start Server");
+//		this.startServer.setStyle("-fx-pref-width: 300px");
+//		this.startServer.setStyle("-fx-pref-height: 300px");
+//		
+//		this.startServer.setOnAction(e->{ primaryStage.setScene(sceneMap.get("startServer"));
+//											primaryStage.setTitle("This is the Server");
+//				serverConnection = new Server(data -> {
+//					Platform.runLater(()->{
+//						serverUpdates.getItems().add(data.toString());
+//					});
+//
+//				});
+//											
+//		});
 		
 		
 		serverUpdates = new ListView<String>();
@@ -60,7 +63,7 @@ public class JavaFXTemplate extends Application {
 		sceneMap = new HashMap<String, Scene>();
 		
 		sceneMap.put("startServer",  createPortNumberScene());
-		sceneMap.put("gameInProgress",  gamesInProgessScene());
+		sceneMap.put("gamesInProgress",  gamesInProgessScene());
 		
 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
@@ -70,6 +73,10 @@ public class JavaFXTemplate extends Application {
             }
         });
 		
+		primaryStage.setScene(sceneMap.get("gamesInProgress"));
+
+		primaryStage.show(); 
+		
 		
 	}
 	
@@ -77,23 +84,53 @@ public class JavaFXTemplate extends Application {
 		
 		BorderPane pane = new BorderPane();
 		pane.setPadding(new Insets(70));
-		pane.setStyle("-fx-background-color: coral");
 	
-	
-		return new Scene(pane, 500, 400);
+		startServer = new Button("Start Server");
+		exit = new Button("Exit");
+		exit.setStyle("-fx-font-size: 1.5em;");
+		startServer.setStyle("-fx-font-size: 1.5em;");
+		buttons = new HBox(30, startServer, exit);
+		buttons.setAlignment(Pos.CENTER);
+		portNumberPrompt = new Text("Please Enter Port Number:");
+		portNumberPrompt.setFill(javafx.scene.paint.Color.WHITE);
+		portNumberPrompt.setStyle("-fx-font-size: 1.5em;");
+		portNumberField = new TextField();
+		portNumberField.setStyle("-fx-font-size: 1.5em;");
+		portNumberField.setFocusTraversable(false);
+		portNumber = new VBox(30,portNumberPrompt, portNumberField);
+		portNumber.setAlignment(Pos.CENTER);
+		butAndNumber = new VBox(40, portNumber, buttons);
+		butAndNumber.setAlignment(Pos.CENTER);
+		pane.setCenter(butAndNumber);
 		
 		
+	
+		
+		Scene scene = new Scene(pane, 700, 600);
+		scene.getRoot().setStyle("-fx-background-color: #008000 ;" + "-fx-font-family: 'serif'");
+		return scene;
 	}
 	
 	public Scene gamesInProgessScene() {
 		
+		
+		
 		BorderPane pane = new BorderPane();
 		pane.setPadding(new Insets(70));
-		pane.setStyle("-fx-background-color: coral");
 		
-		pane.setCenter(serverUpdates);
+		
+		leaveServer = new Button("Leave Server");
+		leaveServer.setStyle("-fx-font-size: 1.5em;");
+		listViewAndLeave = new VBox(30, serverUpdates, leaveServer);
+		listViewAndLeave.setAlignment(Pos.CENTER);
+		pane.setCenter(listViewAndLeave);
+		
 	
-		return new Scene(pane, 500, 400);
+		
+		
+		Scene scene = new Scene(pane, 700, 600);
+		scene.getRoot().setStyle("-fx-background-color: #008000 ;" + "-fx-font-family: 'serif'");
+		return scene;
 		
 		
 	}
