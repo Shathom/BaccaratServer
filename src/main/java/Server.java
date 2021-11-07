@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -16,6 +17,7 @@ import javafx.scene.control.ListView;
 		ArrayList<ClientThread> clients = new ArrayList<ClientThread>();
 		TheServer server;
 		private Consumer<Serializable> callback;
+		BaccaratGame bacGame;
 		
 		Server(Consumer<Serializable> call){
 			callback = call;
@@ -30,10 +32,8 @@ import javafx.scene.control.ListView;
 			
 				try(ServerSocket socket = new ServerSocket(5555);){
 			    System.out.println("Server is waiting for a client!");
-			  
 				
 			    while(true) {
-			        
 			    	
 					ClientThread c = new ClientThread(socket.accept(), count);
 					callback.accept("client has connected to server: " + "client #" + count);
@@ -52,7 +52,6 @@ import javafx.scene.control.ListView;
 		
 
 			class ClientThread extends Thread{
-				
 			    
 				Socket connection;
 				int count;
@@ -62,16 +61,6 @@ import javafx.scene.control.ListView;
 				ClientThread(Socket s, int count){
 					this.connection = s;
 					this.count = count;	
-				}
-				
-				public void updateClients(String message) {
-					for(int i = 0; i < clients.size(); i++) {
-						ClientThread t = clients.get(i);
-						try {
-						 t.out.writeObject(message);
-						}
-						catch(Exception e) {}
-					}
 				}
 				
 				public void run(){
@@ -84,25 +73,28 @@ import javafx.scene.control.ListView;
 					catch(Exception e) {
 						System.out.println("Streams not open");
 					}
-					
-					updateClients("new client on server: client #"+count);
 						
 					 while(true) {
 						    try {
-						    	String data = in.readObject().toString();
-						    	callback.accept("client: " + count + " sent: " + data);
-						    	updateClients("client #"+count+" said: "+data);
+						    	// this here would be BaccaratInfo to read from it
+						    	BaccaratInfo clientInfo = (BaccaratInfo)in.readObject();
+						    	bacGame = new BaccaratGame(clientInfo.bettingAmount, clientInfo.bettingType);
 						    	
 						    	}
 						    catch(Exception e) {
 						    	callback.accept("OOOOPPs...Something wrong with the socket from client: " + count + "....closing down!");
-						    	updateClients("Client #"+count+" has left the server!");
 						    	clients.remove(this);
 						    	break;
 						    }
 						}
 					}//end of run
-				
+				public void send(BaccaratInfo clientInfo) {
+					try {
+						out.writeObject(clientInfo);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
 				
 			}//end of client thread
 	}
