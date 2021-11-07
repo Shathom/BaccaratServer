@@ -52,7 +52,7 @@ public class BaccaratGameLogic {
 			return (playerCard.getValue() == 6 &&
 					playerCard.getValue() == 7);
 		}
-		// throw something here and then return
+		System.out.println("Exception: Discovered new Integer");
 		return false;
 	}
 	
