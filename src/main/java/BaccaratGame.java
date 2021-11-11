@@ -2,12 +2,17 @@ import java.util.ArrayList;
 
 public class BaccaratGame {
 	
-	private ArrayList<Card> playerHand;
-	private ArrayList<Card> bankerHand;
-	private String bettingType;
-	private BaccaratDealer theDealer;
-	private double currentBet;
-	private double totalWinnings;
+	public ArrayList<Card> playerHand;
+	public ArrayList<Card> bankerHand;
+	public String bettingType;
+	public String gameResult;
+	public BaccaratDealer theDealer;
+	public double currentBet;
+	public double currentWinning;
+	public boolean naturalWin = false;
+	public boolean playerDraw = false;
+	public boolean bankerDraw = false;
+	
 	
 	
 	BaccaratGame(double currentBet, String whoToBetOn) {
@@ -26,10 +31,12 @@ public class BaccaratGame {
 			BaccaratGameLogic.handTotal(bankerHand) == 8 ||
 			BaccaratGameLogic.handTotal(playerHand) == 9 ||
 			BaccaratGameLogic.handTotal(playerHand) == 8 ) {
+			naturalWin = true;
 			return;
 		} else {
 			if (BaccaratGameLogic.evaluatePlayerDraw(playerHand)) {
 				playerHand.add(drawCard);
+				playerDraw = true;
 				if (BaccaratGameLogic.evaluateBankerDraw(bankerHand, drawCard)) {
 					bankerHand.add(theDealer.drawOne());
 					return;
@@ -39,6 +46,7 @@ public class BaccaratGame {
 			} else {
 				if (BaccaratGameLogic.evaluateBankerDraw(bankerHand, noDraw)) {
 					bankerHand.add(theDealer.drawOne());
+					bankerDraw = true;
 					return;
 				} else {
 					return;
@@ -50,15 +58,16 @@ public class BaccaratGame {
 	// This method will determine if the user won or lost their bet and return the amount won or lost based on the value in currentBet.
 	public double evaluateWinnings() {
 		drawCards(playerHand, bankerHand);
-			if (BaccaratGameLogic.whoWon(playerHand, bankerHand) == bettingType) {
+		gameResult = BaccaratGameLogic.whoWon(playerHand, bankerHand);
+			if (gameResult == bettingType) {
 				if (bettingType == "Player" || bettingType == "Banker") {
-					totalWinnings = currentBet * 2;
+					currentWinning = currentBet * 2;
 				} else {
-					totalWinnings = (currentBet * 8) + currentBet;
+					currentWinning = (currentBet * 8) + currentBet;
 				}
 			} else {
-				totalWinnings = -currentBet;
+				currentWinning = -currentBet;
 			}
-		return totalWinnings;
+		return currentWinning;
 	}
 }
