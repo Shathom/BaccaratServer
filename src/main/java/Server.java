@@ -13,13 +13,15 @@ import javafx.scene.control.ListView;
 	
 	public class Server{
 
-		int count = 1;	
+		int count = 1;
+		int portNumber = 0;
 		ArrayList<ClientThread> clients = new ArrayList<ClientThread>();
 		TheServer server;
 		private Consumer<Serializable> callback;
 		BaccaratGame bacGame;
 		
-		Server(Consumer<Serializable> call){
+		Server(Consumer<Serializable> call, int portNumber){
+			this.portNumber = portNumber;
 			callback = call;
 			server = new TheServer();
 			server.start();
@@ -30,13 +32,14 @@ import javafx.scene.control.ListView;
 			
 			public void run() {
 			
-				try(ServerSocket socket = new ServerSocket(5555);){
-			    System.out.println("Server is waiting for a client!");
+				try(ServerSocket socket = new ServerSocket(portNumber);){
+				callback.accept("Server is waiting for a client!");
 				
 			    while(true) {
 			    	
 					ClientThread c = new ClientThread(socket.accept(), count);
-					callback.accept("client has connected to server: " + "client #" + count);
+					callback.accept("Client has connected to server: " + "client #" + count);
+					callback.accept("There are " + count + " clients connected to the server");
 					clients.add(c);
 					c.start();
 					
@@ -57,6 +60,8 @@ import javafx.scene.control.ListView;
 				int count;
 				ObjectInputStream in;
 				ObjectOutputStream out;
+				double totalWinnings = 0;
+				
 				
 				ClientThread(Socket s, int count){
 					this.connection = s;
@@ -79,10 +84,28 @@ import javafx.scene.control.ListView;
 						    	// this here would be BaccaratInfo to read from it
 						    	BaccaratInfo clientInfo = (BaccaratInfo)in.readObject();
 						    	bacGame = new BaccaratGame(clientInfo.bettingAmount, clientInfo.bettingType);
+						    	clientInfo.currentWinnings = bacGame.evaluateWinnings();
+						    	totalWinnings += clientInfo.currentWinnings;
+						    	clientInfo.playerHand = new ArrayList<String>();
+						    	clientInfo.bankerHand = new ArrayList<String>();						    	
+						    	for (Card c: bacGame.playerHand) {
+						    		clientInfo.playerHand.add(c.toString());
+						    	}
+						    	
+						    	for (Card c: bacGame.bankerHand) {
+						    		clientInfo.bankerHand.add(c.toString());
+						    	}
+						    	clientInfo.naturalWin = bacGame.naturalWin;
+						    	clientInfo.playerDraw = bacGame.playerDraw;
+						    	clientInfo.bankerDraw = bacGame.bankerDraw;
+						    	clientInfo.gameResult = bacGame.gameResult;
+						    	clientInfo.totalWinnings = this.totalWinnings;
+						    	send(clientInfo);
+						    	
 						    	
 						    	}
 						    catch(Exception e) {
-						    	callback.accept("OOOOPPs...Something wrong with the socket from client: " + count + "....closing down!");
+						    	callback.accept("client: " + count + " left the server");
 						    	clients.remove(this);
 						    	break;
 						    }
