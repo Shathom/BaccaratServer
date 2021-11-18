@@ -83,6 +83,8 @@ import javafx.scene.control.ListView;
 						    try {
 						    	// this here would be BaccaratInfo to read from it
 						    	BaccaratInfo clientInfo = (BaccaratInfo)in.readObject();
+						    	System.out.println("information recieved from client");
+						    	System.out.println(clientInfo);
 						    	bacGame = new BaccaratGame(clientInfo.bettingAmount, clientInfo.bettingType);
 						    	clientInfo.currentWinnings = bacGame.evaluateWinnings();
 						    	totalWinnings += clientInfo.currentWinnings;
@@ -100,12 +102,16 @@ import javafx.scene.control.ListView;
 						    	clientInfo.bankerDraw = bacGame.bankerDraw;
 						    	clientInfo.gameResult = bacGame.gameResult;
 						    	clientInfo.totalWinnings = this.totalWinnings;
+						    	System.out.println(clientInfo.totalWinnings);
+						    	System.out.println("information updated in the server");
+						    	System.out.println(clientInfo);
 						    	send(clientInfo);
 						    	
 						    	
 						    	}
 						    catch(Exception e) {
 						    	callback.accept("client: " + count + " left the server");
+						    	callback.accept("There are " + count + " clients connected to the server");
 						    	clients.remove(this);
 						    	break;
 						    }
@@ -113,7 +119,9 @@ import javafx.scene.control.ListView;
 					}//end of run
 				public void send(BaccaratInfo clientInfo) {
 					try {
+						System.out.println("information sent to client");
 						out.writeObject(clientInfo);
+											
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
