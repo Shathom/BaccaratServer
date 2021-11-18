@@ -73,6 +73,7 @@ public class JavaFXTemplate extends Application {
 	
 	public Scene createPortNumberScene(Stage primaryStage) {
 		
+		
 		BorderPane pane = new BorderPane();
 		pane.setPadding(new Insets(70));
 	
@@ -138,8 +139,6 @@ public class JavaFXTemplate extends Application {
 		listViewAndLeave = new VBox(30, serverUpdates, leaveServer);
 		listViewAndLeave.setAlignment(Pos.CENTER);
 		pane.setCenter(listViewAndLeave);
-		
-		
 		
 		
 		
