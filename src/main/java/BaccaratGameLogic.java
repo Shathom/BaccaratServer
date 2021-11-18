@@ -44,12 +44,12 @@ public class BaccaratGameLogic {
 					&& playerCard.getValue() != 9);
 		}
 		if (handTotal(hand) == 5) {
-			return (playerCard == null &&
+			return (playerCard == null ||
 					playerCard.getValue() >= 4 &&
 					playerCard.getValue() <= 7);
 		}
 		if (handTotal(hand) == 6) {
-			return (playerCard.getValue() == 6 &&
+			return (playerCard.getValue() == 6 ||
 					playerCard.getValue() == 7);
 		}
 		System.out.println("Exception: Discovered new Integer");
