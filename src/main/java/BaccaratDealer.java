@@ -7,6 +7,9 @@ public class BaccaratDealer {
 	private final String suits[] = {"club", "diamond", "heart", "spade"};
 	private final int ranks[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
 	
+	BaccaratDealer() {
+		
+	}
 	// generateDeck will generate a new standard 52 card deck where each card is an instance of the Card class in the ArrayList<Card> deck.
 	public void generateDeck() {
 		deck = new ArrayList<Card>();
@@ -44,6 +47,17 @@ public class BaccaratDealer {
 	// deckSize will just return how many cards are in this deck at any given time.
 	public int deckSize() {
 		return deck.size();
+	}
+	
+	// for testing
+	public void printDeck() {
+		int cardNum = 1;
+		for (int i = 0; i < suits.length; i++) {
+			for (int j = 0; j < ranks.length; j++) {
+				System.out.println("Card Num: " + cardNum + " " + suits[i] + " " + ranks[j] + "\n");
+				cardNum++;
+			}
+		}
 	}
 	
 }
