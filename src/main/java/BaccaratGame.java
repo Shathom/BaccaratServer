@@ -8,7 +8,7 @@ public class BaccaratGame {
 	public String gameResult;
 	public BaccaratDealer theDealer;
 	public double currentBet;
-	public double currentWinning;
+	public double currentWinning = 0.0;
 	public boolean naturalWin = false;
 	public boolean playerDraw = false;
 	public boolean bankerDraw = false;
@@ -18,6 +18,9 @@ public class BaccaratGame {
 	BaccaratGame(double currentBet, String whoToBetOn) {
 		this.currentBet = currentBet;
 		this.bettingType = whoToBetOn;
+		theDealer = new BaccaratDealer();
+		bankerHand = new ArrayList<Card>();
+		bankerHand = new ArrayList<Card>();
 		theDealer.generateDeck();
 		playerHand = theDealer.dealHand();
 		bankerHand = theDealer.dealHand();
