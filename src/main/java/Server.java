@@ -84,7 +84,7 @@ import javafx.scene.control.ListView;
 						    	// this here would be BaccaratInfo to read from it
 						    	BaccaratInfo clientInfo = (BaccaratInfo)in.readObject();
 						    	System.out.println("information recieved from client");
-						    	System.out.println(clientInfo);
+						    	//System.out.println(clientInfo);
 						    	bacGame = new BaccaratGame(clientInfo.bettingAmount, clientInfo.bettingType);
 						    	clientInfo.currentWinnings = bacGame.evaluateWinnings();
 						    	totalWinnings += clientInfo.currentWinnings;
@@ -101,16 +101,28 @@ import javafx.scene.control.ListView;
 						    	clientInfo.playerDraw = bacGame.playerDraw;
 						    	clientInfo.bankerDraw = bacGame.bankerDraw;
 						    	clientInfo.gameResult = bacGame.gameResult;
+						    	clientInfo.bankerHandTotal = bacGame.bankerHandTotal;
+						    	clientInfo.playerHandTotal = bacGame.playerHandTotal;
 						    	clientInfo.totalWinnings = this.totalWinnings;
-						    	System.out.println(clientInfo.totalWinnings);
-						    	System.out.println("information updated in the server");
-						    	System.out.println(clientInfo);
-						    	send(clientInfo);
 						    	
+						    	callback.accept("client #" + count + " has bet on " + clientInfo.bettingType+ " for $" + clientInfo.bettingAmount);
+						    	
+						    	callback.accept("client #" + count + "'s natural win was " + clientInfo.naturalWin);
+						    	
+						    	if (clientInfo.gameResult == clientInfo.bettingType) {
+						    		callback.accept("client #" + count + " won $" + clientInfo.currentWinnings + " for betting on " + clientInfo.bettingType);
+						    	} else {
+						    		callback.accept("client #" + count + " lost $" + clientInfo.currentWinnings + " for betting on " + clientInfo.bettingType);
+						    	}
+						    	
+						    	//System.out.println("information updated in the server");
+						 
+						    	send(clientInfo);
 						    	
 						    	}
 						    catch(Exception e) {
-						    	callback.accept("client: " + count + " left the server");
+						    	callback.accept("client #" + count + " left the server");
+						    	count--;
 						    	callback.accept("There are " + count + " clients connected to the server");
 						    	clients.remove(this);
 						    	break;
