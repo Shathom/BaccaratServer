@@ -12,6 +12,8 @@ public class BaccaratGame {
 	public boolean naturalWin = false;
 	public boolean playerDraw = false;
 	public boolean bankerDraw = false;
+	public int playerHandTotal;
+	public int bankerHandTotal;
 	
 	
 	
@@ -24,6 +26,8 @@ public class BaccaratGame {
 		theDealer.generateDeck();
 		playerHand = theDealer.dealHand();
 		bankerHand = theDealer.dealHand();
+		playerHandTotal = BaccaratGameLogic.handTotal(playerHand);
+		bankerHandTotal = BaccaratGameLogic.handTotal(bankerHand);
 	}
 	
 	
@@ -39,9 +43,12 @@ public class BaccaratGame {
 		} else {
 			if (BaccaratGameLogic.evaluatePlayerDraw(playerHand)) {
 				playerHand.add(drawCard);
+				playerHandTotal = BaccaratGameLogic.handTotal(playerHand);
 				playerDraw = true;
 				if (BaccaratGameLogic.evaluateBankerDraw(bankerHand, drawCard)) {
 					bankerHand.add(theDealer.drawOne());
+					bankerHandTotal = BaccaratGameLogic.handTotal(bankerHand);
+					bankerDraw = true;
 					return;
 				} else {
 					return;
@@ -49,6 +56,7 @@ public class BaccaratGame {
 			} else {
 				if (BaccaratGameLogic.evaluateBankerDraw(bankerHand, noDraw)) {
 					bankerHand.add(theDealer.drawOne());
+					bankerHandTotal = BaccaratGameLogic.handTotal(bankerHand);
 					bankerDraw = true;
 					return;
 				} else {
