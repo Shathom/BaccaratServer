@@ -30,7 +30,7 @@ public class JavaFXTemplate extends Application {
 	private Button startServer, leaveServer, exit;
 	private HashMap<String, Scene> sceneMap;
 	public Server serverConnection;
-	private EventHandler<ActionEvent> startServerHandler, exitHandler, leaveServerhandler;
+	private EventHandler<ActionEvent> startServerHandler;
 	ListView<String> serverUpdates;
 	public BaccaratInfo data;
 	
@@ -43,10 +43,7 @@ public class JavaFXTemplate extends Application {
 	public void start(Stage primaryStage) throws Exception {
 
 		primaryStage.setTitle("Baccarat Server");
-		
-		
-		
-		
+
 		serverUpdates = new ListView<String>();
 		
 		sceneMap = new HashMap<String, Scene>();
@@ -63,7 +60,8 @@ public class JavaFXTemplate extends Application {
         });
 		
 		
-	    leaveServer.setOnAction(e -> primaryStage.setScene(sceneMap.get("startServer")));
+	    leaveServer.setOnAction(e -> primaryStage.close());
+	    
 		primaryStage.setScene(sceneMap.get("startServer"));
 
 		primaryStage.show(); 
@@ -115,12 +113,9 @@ public class JavaFXTemplate extends Application {
 			}
 		};
 		
+		
 		startServer.setOnAction(startServerHandler);
 		exit.setOnAction(f->Platform.exit());
-		 
-		
-		
-		
 		
 		Scene scene = new Scene(pane, 700, 600);
 		scene.getRoot().setStyle("-fx-background-color: #008000 ;" + "-fx-font-family: 'serif'");
@@ -140,8 +135,7 @@ public class JavaFXTemplate extends Application {
 		listViewAndLeave.setAlignment(Pos.CENTER);
 		pane.setCenter(listViewAndLeave);
 		
-		
-		
+
 		Scene scene = new Scene(pane, 700, 600);
 		scene.getRoot().setStyle("-fx-background-color: #008000 ;" + "-fx-font-family: 'serif'");
 		return scene;
