@@ -70,11 +70,11 @@ public class BaccaratGame {
 	public double evaluateWinnings() {
 		drawCards(playerHand, bankerHand);
 		gameResult = BaccaratGameLogic.whoWon(playerHand, bankerHand);
-			if (gameResult == bettingType) {
-				if (bettingType == "Player" || bettingType == "Banker") {
-					currentWinning = currentBet * 2;
+			if (gameResult.equals(bettingType)) {
+				if (bettingType.equals("Player") || bettingType.equals("Banker")) {
+					currentWinning = currentBet;
 				} else {
-					currentWinning = (currentBet * 8) + currentBet;
+					currentWinning = currentBet * 8;
 				}
 			} else {
 				currentWinning = -currentBet;
