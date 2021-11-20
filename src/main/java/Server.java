@@ -20,6 +20,7 @@ import javafx.scene.control.ListView;
 		private Consumer<Serializable> callback;
 		BaccaratGame bacGame;
 		
+		
 		Server(Consumer<Serializable> call, int portNumber){
 			this.portNumber = portNumber;
 			callback = call;
@@ -29,6 +30,7 @@ import javafx.scene.control.ListView;
 		
 		
 		public class TheServer extends Thread{
+			
 			
 			public void run() {
 			
@@ -42,15 +44,16 @@ import javafx.scene.control.ListView;
 					callback.accept("There are " + count + " clients connected to the server");
 					clients.add(c);
 					c.start();
-					
 					count++;
 					
-				    }
+				}
+			    
 				}//end of try
-					catch(Exception e) {
+				catch(Exception e) {
 						callback.accept("Server socket did not launch");
 					}
 				}//end of while
+			
 			}
 		
 
@@ -58,6 +61,7 @@ import javafx.scene.control.ListView;
 			    
 				Socket connection;
 				int count;
+				// int left;
 				ObjectInputStream in;
 				ObjectOutputStream out;
 				double totalWinnings = 0;
@@ -81,10 +85,8 @@ import javafx.scene.control.ListView;
 						
 					 while(true) {
 						    try {
-						    	// this here would be BaccaratInfo to read from it
 						    	BaccaratInfo clientInfo = (BaccaratInfo)in.readObject();
 						    	System.out.println("information recieved from client");
-						    	//System.out.println(clientInfo);
 						    	bacGame = new BaccaratGame(clientInfo.bettingAmount, clientInfo.bettingType);
 						    	clientInfo.currentWinnings = bacGame.evaluateWinnings();
 						    	totalWinnings += clientInfo.currentWinnings;
@@ -109,21 +111,21 @@ import javafx.scene.control.ListView;
 						    	
 						    	callback.accept("client #" + count + "'s natural win was " + clientInfo.naturalWin);
 						    	
-						    	if (clientInfo.gameResult == clientInfo.bettingType) {
+						    	callback.accept("client #" + count + "'s totalWinnings are: $" + totalWinnings);
+						    	
+						    	if (clientInfo.gameResult.equals(clientInfo.bettingType)) {
 						    		callback.accept("client #" + count + " won $" + clientInfo.currentWinnings + " for betting on " + clientInfo.bettingType);
 						    	} else {
 						    		callback.accept("client #" + count + " lost $" + clientInfo.currentWinnings + " for betting on " + clientInfo.bettingType);
 						    	}
-						    	
-						    	//System.out.println("information updated in the server");
 						 
 						    	send(clientInfo);
 						    	
 						    	}
 						    catch(Exception e) {
 						    	callback.accept("client #" + count + " left the server");
-						    	count--;
-						    	callback.accept("There are " + count + " clients connected to the server");
+						    	//left = left + 1;
+						    	//callback.accept("There are " + (count - left) + " clients connected to the server");
 						    	clients.remove(this);
 						    	break;
 						    }
