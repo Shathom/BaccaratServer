@@ -88,7 +88,7 @@ public class JavaFXTemplate extends Application {
 		
 		portNumberPrompt = new Text("Please Enter Port Number:");
 		portNumberPrompt.setFill(javafx.scene.paint.Color.WHITE);
-		portNumberPrompt.setStyle("-fx-font-size: 1.5em;");
+		portNumberPrompt.setStyle("-fx-font-size: 1.5em;" + "-fx-font-weight: bold;");
 		
 		portNumberField = new TextField();
 		portNumberField.setStyle("-fx-font-size: 1.5em;" + "-fx-background-radius: 20;");
