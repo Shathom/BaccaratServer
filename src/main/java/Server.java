@@ -61,7 +61,6 @@ import javafx.scene.control.ListView;
 			    
 				Socket connection;
 				int count;
-				// int left;
 				ObjectInputStream in;
 				ObjectOutputStream out;
 				double totalWinnings = 0;
@@ -124,8 +123,6 @@ import javafx.scene.control.ListView;
 						    	}
 						    catch(Exception e) {
 						    	callback.accept("client #" + count + " left the server");
-						    	//left = left + 1;
-						    	//callback.accept("There are " + (count - left) + " clients connected to the server");
 						    	clients.remove(this);
 						    	break;
 						    }
