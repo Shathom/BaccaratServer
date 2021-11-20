@@ -76,10 +76,12 @@ public class JavaFXTemplate extends Application {
 		pane.setPadding(new Insets(70));
 	
 		startServer = new Button("Start Server");
-		startServer.setStyle("-fx-font-size: 1.5em;");
+		startServer.setStyle("-fx-font-size: 1.5em;" +"-fx-background-color: linear-gradient(#ffd65b, #e68400),linear-gradient(#ffef84, #f2ba44), linear-gradient(#ffea6a, #efaa22), linear-gradient(#ffe657 0%, #f8c202 50%, #eea10b 100%), linear-gradient(from 0% 0% to 15% 50%, rgba(255,255,255,0.9),rgba(255,255,255,0));" + "-fx-background-radius: 30;" + "-fx-background-insets: 0,1,2,3,0;" + "-fx-text-fill: #654b00;" + "-fx-font-weight: bold;");
+
 		
 		exit = new Button("Exit");
-		exit.setStyle("-fx-font-size: 1.5em;");
+		exit.setStyle("-fx-font-size: 1.5em;" +"-fx-background-color: linear-gradient(#ffd65b, #e68400),linear-gradient(#ffef84, #f2ba44), linear-gradient(#ffea6a, #efaa22), linear-gradient(#ffe657 0%, #f8c202 50%, #eea10b 100%), linear-gradient(from 0% 0% to 15% 50%, rgba(255,255,255,0.9),rgba(255,255,255,0));" + "-fx-background-radius: 30;" + "-fx-background-insets: 0,1,2,3,0;" + "-fx-text-fill: #654b00;" + "-fx-font-weight: bold;");
+
 		
 		buttons = new HBox(30, startServer, exit);
 		buttons.setAlignment(Pos.CENTER);
@@ -89,7 +91,7 @@ public class JavaFXTemplate extends Application {
 		portNumberPrompt.setStyle("-fx-font-size: 1.5em;");
 		
 		portNumberField = new TextField();
-		portNumberField.setStyle("-fx-font-size: 1.5em;");
+		portNumberField.setStyle("-fx-font-size: 1.5em;" + "-fx-background-radius: 20;");
 		portNumberField.setFocusTraversable(false);
 		
 		portNumber = new VBox(30,portNumberPrompt, portNumberField);
@@ -130,7 +132,8 @@ public class JavaFXTemplate extends Application {
 		
 		
 		leaveServer = new Button("Leave Server");
-		leaveServer.setStyle("-fx-font-size: 1.5em;");
+		leaveServer.setStyle("-fx-font-size: 1.5em;" +"-fx-background-color: linear-gradient(#ffd65b, #e68400),linear-gradient(#ffef84, #f2ba44), linear-gradient(#ffea6a, #efaa22), linear-gradient(#ffe657 0%, #f8c202 50%, #eea10b 100%), linear-gradient(from 0% 0% to 15% 50%, rgba(255,255,255,0.9),rgba(255,255,255,0));" + "-fx-background-radius: 30;" + "-fx-background-insets: 0,1,2,3,0;" + "-fx-text-fill: #654b00;" + "-fx-font-weight: bold;");
+
 		listViewAndLeave = new VBox(30, serverUpdates, leaveServer);
 		listViewAndLeave.setAlignment(Pos.CENTER);
 		pane.setCenter(listViewAndLeave);
